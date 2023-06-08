@@ -36,14 +36,14 @@ func (h *Handler) userIdentity(c *gin.Context) {
 	c.Set(userCtx, userID)
 }
 
-func getUserID(c *gin.Context) (uint, error) {
+func getUserID(c *gin.Context) (int, error) {
 	id, ok := c.Get(userCtx)
 	if !ok {
 		newErrorResponse(c, http.StatusInternalServerError, "user id not found")
 		return 0, errors.New("user id not found")
 	}
 
-	idUint, ok := id.(uint)
+	idUint, ok := id.(int)
 	if !ok {
 		newErrorResponse(c, http.StatusInternalServerError, "user id is invalid type")
 		return 0, errors.New("user id is invalid type")

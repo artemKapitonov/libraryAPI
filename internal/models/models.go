@@ -1,6 +1,8 @@
 package models
 
-import "os"
+import (
+	"mime/multipart"
+)
 
 type User struct {
 	ID       int    `json:"id"`
@@ -13,7 +15,7 @@ type Book struct {
 	ID     int    `json:"id"`
 	Author string `json:"author"`
 	Title  string `json:"title"`
-	File   os.File
+	File   multipart.File
 }
 
 type UserBook struct {
