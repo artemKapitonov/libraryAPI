@@ -2,14 +2,18 @@ package handlers
 
 import (
 	"github.com/gin-gonic/gin"
+	"gitnub.com/artemKapitonov/libraryAPI/internal/models"
 	"gitnub.com/artemKapitonov/libraryAPI/internal/service"
 )
 
 type Service interface {
+	CreateUser(user models.User) (int, error)
+	ParseToken(token string) (int, error)
+	GenerateToken(username, password string) (string, error)
 }
 
 type Handler struct {
-	Service Service
+	Service
 }
 
 func New(service *service.Service) *Handler {
