@@ -1,9 +1,11 @@
 package repository
 
-import "gitnub.com/artemKapitonov/libraryAPI/internal/models"
+import (
+	"gitnub.com/artemKapitonov/libraryAPI/internal/models"
+)
 
-func (r *Repository) NewBook(input models.Book, userID int) (int, error) {
-	return 0, nil
+func (r *Repository) NewBook(book *models.Book, userID int) (int, string, error) {
+	return 0, book.Path, nil
 
-	//TODO
+	//query := fmt.Sprintf("INSERT INTO books (id, author, title, path) VALUES ();")
 }

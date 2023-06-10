@@ -16,6 +16,7 @@ type Book struct {
 	Author string `json:"author"`
 	Title  string `json:"title"`
 	File   multipart.File
+	Path   string `json:"path"`
 }
 
 type UserBook struct {

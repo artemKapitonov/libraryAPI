@@ -12,7 +12,7 @@ type Service struct {
 type Repository interface {
 	NewUser(user models.User) (int, error)
 	User(username, password string) (models.User, error)
-	NewBook(input models.Book, userID int) (int, error)
+	NewBook(book *models.Book, userID int) (int, string, error)
 }
 
 func New(repo *repository.Repository) *Service {

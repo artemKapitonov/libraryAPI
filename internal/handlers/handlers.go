@@ -10,7 +10,7 @@ type Service interface {
 	CreateUser(user models.User) (int, error)
 	ParseToken(token string) (int, error)
 	GenerateToken(username, password string) (string, error)
-	CreateBook(input models.Book, userID int) (int, error)
+	CreateBook(book *models.Book, userID int) (int, string, error)
 }
 
 type Handler struct {
@@ -30,7 +30,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		auth.POST("/sign-in", h.signIn)
 	}
 
-	books := router.Group("/books")
+	books := router.Group("/books", h.userIdentity)
 	{
 		books.GET("/", h.allBooks)
 

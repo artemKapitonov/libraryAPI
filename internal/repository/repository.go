@@ -2,9 +2,9 @@ package repository
 
 import "github.com/jmoiron/sqlx"
 
-const(
-	usersTable = "users"
-	booksTable = "books"
+const (
+	usersTable      = "users"
+	booksTable      = "books"
 	usersBooksTable = "user_books"
 )
 
