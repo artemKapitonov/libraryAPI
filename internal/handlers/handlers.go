@@ -2,16 +2,8 @@ package handlers
 
 import (
 	"github.com/gin-gonic/gin"
-	"gitnub.com/artemKapitonov/libraryAPI/internal/models"
 	"gitnub.com/artemKapitonov/libraryAPI/internal/service"
 )
-
-type Service interface {
-	CreateUser(user models.User) (int, error)
-	ParseToken(token string) (int, error)
-	GenerateToken(username, password string) (string, error)
-	CreateBook(book *models.Book, userID int) (int, string, error)
-}
 
 type Handler struct {
 	Service
@@ -33,6 +25,8 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	books := router.Group("/books", h.userIdentity)
 	{
 		books.GET("/", h.allBooks)
+
+		books.GET("/my", h.myBooks)
 
 		books.GET("/:id", h.bookByID)
 

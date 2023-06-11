@@ -8,7 +8,35 @@ import (
 	"gitnub.com/artemKapitonov/libraryAPI/internal/models"
 )
 
+type Service interface {
+	CreateUser(user models.User) (int, error)
+	ParseToken(token string) (int, error)
+	GenerateToken(username, password string) (string, error)
+	CreateBook(book *models.Book, userID int) (int, string, error)
+	MyBooks(userID int) ([]models.BookResponse, error)
+}
+
+func (h *Handler) myBooks(c *gin.Context) {
+	userID, err := getUserID(c)
+	if err != nil {
+		newErrorResponse(c, http.StatusUnauthorized, err.Error())
+		return
+	}
+
+	var books []models.BookResponse
+
+	books, err = h.Service.MyBooks(userID)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, books)
+
+}
+
 func (h *Handler) allBooks(c *gin.Context) {
+
 }
 
 func (h *Handler) bookByID(c *gin.Context) {

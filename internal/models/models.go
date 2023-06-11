@@ -19,6 +19,13 @@ type Book struct {
 	Path   string `json:"path"`
 }
 
+type BookResponse struct {
+	ID     int    `json:"id"`
+	Author string `json:"author"`
+	Title  string `json:"title"`
+	Path   string `json:"path"`
+}
+
 type UserBook struct {
 	ID     int
 	UserID int
