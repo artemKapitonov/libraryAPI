@@ -2,12 +2,10 @@ package yandex
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strconv"
-	"time"
 
 	"gitnub.com/artemKapitonov/libraryAPI/internal/models"
 )
@@ -24,11 +22,24 @@ type GetBookResponse struct {
 	FilePath string `json:"file"`
 }
 
-func UploadFileToYandexDisk(book *models.Book, token string) (string, error) {
+func ConvertBookToBookResp(book *models.Book) models.BookResponse {
+	bookResp := models.BookResponse{
+		ID:     book.ID,
+		Author: book.Author,
+		Title:  book.Title,
+		Path:   book.Path,
+	}
+
+	return bookResp
+}
+
+func UploadFileToYandexDisk(book *models.Book, token string, userID int) (string, error) {
 
 	var uploadURLResponse UploadURLresponse
 
-	fileName := GenerateFileName(book)
+	bookResp := ConvertBookToBookResp(book)
+
+	fileName := GenerateFileName(bookResp, userID)
 
 	url := fmt.Sprintf("https://cloud-api.yandex.net/v1/disk/resources/upload?path=app:/%s", fileName)
 	req, err := http.NewRequest("GET", url, nil)
@@ -73,10 +84,8 @@ func UploadFileToYandexDisk(book *models.Book, token string) (string, error) {
 	return filePath, nil
 }
 
-func GenerateFileName(book *models.Book) string {
-	currentTime := time.Now().Unix()
-
-	fileName := fmt.Sprintf("%s__%s__%s.fb2", book.Author, book.Title, strconv.Itoa(int(currentTime)))
+func GenerateFileName(book models.BookResponse, userID int) string {
+	fileName := fmt.Sprintf("%s__%s__%s.fb2", book.Author, book.Title, strconv.Itoa(userID))
 	return fileName
 }
 
@@ -109,10 +118,9 @@ func GetFilePath(fileName, token string) (string, error) {
 	return bookResp.FilePath, nil
 }
 
-func DeleteBook(fileName, token string) error {
-	if fileName == "" {
-		return errors.New("Null name of file")
-	}
+func DeleteFile(book models.BookResponse, token string, userID int) error {
+
+	fileName := GenerateFileName(book, userID)
 
 	url := fmt.Sprintf("https://cloud-api.yandex.net/v1/disk/resources?path=app:/%s", fileName)
 

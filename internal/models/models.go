@@ -20,10 +20,11 @@ type Book struct {
 }
 
 type BookResponse struct {
-	ID     int    `json:"id"`
-	Author string `json:"author"`
-	Title  string `json:"title"`
-	Path   string `json:"path"`
+	ID       int    `json:"id"`
+	Username string `json:"username"`
+	Author   string `json:"author"`
+	Title    string `json:"title"`
+	Path     string `json:"path"`
 }
 
 type UserBook struct {
