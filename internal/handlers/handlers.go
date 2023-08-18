@@ -26,16 +26,15 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	{
 		books.GET("/", h.allBooks)
 
-		books.GET("/my", h.myBooks)
-
 		books.GET("/:id", h.bookByID)
+
+		books.GET("/my", h.myBooks)
 
 		books.POST("/", h.createBook)
 
 		books.PUT("/:id", h.updateBook)
 
 		books.DELETE("/:id", h.deleteByID)
-
 	}
 
 	return router

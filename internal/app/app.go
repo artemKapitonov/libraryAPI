@@ -9,6 +9,7 @@ import (
 	"github.com/spf13/viper"
 	"gitnub.com/artemKapitonov/libraryAPI/internal/config"
 	"gitnub.com/artemKapitonov/libraryAPI/internal/handlers"
+	migrate "gitnub.com/artemKapitonov/libraryAPI/internal/migrations"
 	"gitnub.com/artemKapitonov/libraryAPI/internal/repository"
 	"gitnub.com/artemKapitonov/libraryAPI/internal/server"
 	"gitnub.com/artemKapitonov/libraryAPI/internal/service"
@@ -43,6 +44,10 @@ func New() *App {
 		DBName:   viper.GetString("db.dbname"),
 		SSLMode:  viper.GetString("db.sslmode"),
 	})
+
+	if err := migrate.Create(db); err != nil {
+		logrus.Fatalf("Can't do migration: %s", err.Error())
+	}
 
 	app.repo = repository.New(db)
 
